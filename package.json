@@ -35,6 +35,7 @@
     "image-webpack-loader": "^4.6.0",
     "lodash": "^4.17.11",
     "lodash-webpack-plugin": "^0.11.5",
+    "node-sass": "^4.12.0",
     "postcss-loader": "^3.0.0",
     "prettier": "^1.17.1",
     "react": "^16.8.6",
