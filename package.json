@@ -4,7 +4,8 @@
   "description": "Do snakey snake",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./webpack/development.js"
+    "start:dev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./webpack/development.js",
+    "start:prod": " ./node_modules/webpack/bin/webpack.js --config ./webpack/production.js"
   },
   "repository": {
     "type": "git",
