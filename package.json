@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/iTeckHD/snake/issues"
   },
-  "homepage": "https://github.com/iTeckHD/snake#readme"
+  "homepage": "https://github.com/iTeckHD/snake#readme",
+  "devDependencies": {
+    "typescript": "^3.4.5"
+  }
 }
