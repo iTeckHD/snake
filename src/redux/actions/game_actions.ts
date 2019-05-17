@@ -1,11 +1,17 @@
 import { prefixActions } from '../../util/prefix_actions';
 import { ReduxAction } from '../../util/redux_action';
+import { Coordination } from '../../game/types/coordination';
+import { Direction } from '../../game/enums/directions';
 
-export interface GameAction extends ReduxAction {}
+export interface GameAction extends ReduxAction {
+  paused?: boolean;
+  direction?: Direction;
+}
 
 export const GameActionTypes = prefixActions('GameAction', {
   START_GAME: 'START_GAME',
-  PAUSE_GAME: 'PAUSE_GAME',
+  SET_PAUSE: 'SET_PAUSE',
+  MOVE: 'MOVE',
 });
 
 export const GameActions = {
@@ -14,7 +20,18 @@ export const GameActions = {
   }),
 
   pauseGame: (): GameAction => ({
-    type: GameActionTypes.PAUSE_GAME,
+    type: GameActionTypes.SET_PAUSE,
+    paused: true,
+  }),
+
+  resumeGame: (): GameAction => ({
+    type: GameActionTypes.SET_PAUSE,
+    paused: false,
+  }),
+
+  move: (direction: Direction): GameAction => ({
+    type: GameActionTypes.MOVE,
+    direction,
   }),
 };
 
