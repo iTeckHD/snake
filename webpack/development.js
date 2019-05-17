@@ -22,7 +22,7 @@ module.exports = merge(defaultConfig, {
       'process.env.NODE_ENV': JSON.stringify('development'),
       'process.env.SERVER_URL': JSON.stringify('http://192.168.18.77:9000')
     }),
-    new CleanWebpackPlugin(['build'], {
+    new CleanWebpackPlugin({
       root: path.join(__dirname, '../'),
       verbose: true,
       dry: false,
