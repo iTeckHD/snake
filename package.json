@@ -19,6 +19,11 @@
   "devDependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
+    "@types/react": "^16.8.17",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-redux": "^7.0.9",
+    "@types/react-router-dom": "^4.3.3",
+    "@types/redux-thunk": "^2.1.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
     "babel-plugin-lodash": "^3.3.4",
