@@ -2,7 +2,6 @@
   "name": "snake",
   "version": "1.0.0",
   "description": "Do snakey snake",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./webpack/development.js "
