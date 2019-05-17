@@ -5,14 +5,20 @@ export const getNextCoordination = (
   coords: Coordination[],
   direction: Direction,
 ): Coordination => {
-  const temp = coords.slice();
-  temp.unshift();
-
-  const newCord: Coordination = { ...temp[0] };
+  const newCord: Coordination = { ...coords[0] };
 
   switch (direction) {
     case Direction.UP:
-      newCord.y = newCord.y - 1;
+      newCord.y--;
+      break;
+    case Direction.RIGHT:
+      newCord.x++;
+      break;
+    case Direction.DOWN:
+      newCord.y++;
+      break;
+    case Direction.LEFT:
+      newCord.x--;
       break;
   }
 
