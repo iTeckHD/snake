@@ -4,7 +4,7 @@
   "description": "Do snakey snake",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./webpack/development.js "
+    "start:dev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./webpack/development.js"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,7 @@
     "lodash": "^4.17.11",
     "lodash-webpack-plugin": "^0.11.5",
     "postcss-loader": "^3.0.0",
+    "prettier": "^1.17.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
