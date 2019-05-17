@@ -11,21 +11,21 @@ const CLIENT_DIR = path.resolve(__dirname, '../src');
 module.exports = merge(defaultConfig, {
   mode: 'production',
   entry: {
-    app: path.join(CLIENT_DIR, 'app.tsx')
+    app: path.join(CLIENT_DIR, 'index.tsx'),
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     new CleanWebpackPlugin(['build'], {
       root: path.join(__dirname, '../'),
       verbose: true,
       dry: false,
-      exclude: []
+      exclude: [],
     }),
     new HtmlWebpackPlugin({
       title: 'HTML 5 - Snake',
-      template: './src/index.html'
-    })
-  ]
+      template: './src/index.html',
+    }),
+  ],
 });

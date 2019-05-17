@@ -25,6 +25,7 @@
     "@types/react-redux": "^7.0.9",
     "@types/react-router-dom": "^4.3.3",
     "@types/redux-thunk": "^2.1.0",
+    "autoprefixer": "^9.5.1",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
     "babel-plugin-lodash": "^3.3.4",
