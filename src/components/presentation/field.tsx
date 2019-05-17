@@ -1,7 +1,8 @@
 import React from 'react';
+import { GameConfig } from '../../game/config';
 
 export const Field = () => {
-  const size = 15;
+  const size = GameConfig.fieldSize;
   const arr = new Array(size).fill(null);
 
   const renderRow = (key: number) => {
