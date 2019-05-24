@@ -6,9 +6,13 @@ interface PresentationalProps {}
 type Props = PropsWithChildren<PresentationalProps>;
 export const Layout = (props: Props) => {
   return (
-    <>
-      <Header />
-      <div>{props.children}</div>
-    </>
+    <div className='layout'>
+      <div className='layout-header'>
+        <Header />
+      </div>
+      <div className='layout-wrapper'>
+        <div className='layout-content'>{props.children}</div>
+      </div>
+    </div>
   );
 };
