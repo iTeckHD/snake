@@ -8,11 +8,10 @@ import { getStartSnakeCoordinates } from '../../game/coordination/get_start_snak
 import { GameConfig } from '../../game/config';
 import { nextDirectionIsValid } from '../../game/next_direction_is_valid';
 import { getStartFoodCoordination } from '../../game/coordination/get_start_food_coordination';
+import { GameStatus } from '../../game/enums/game_status';
 
 export interface GameState {
-  started: boolean;
-  paused: boolean;
-  isOver: boolean;
+  status: GameStatus;
   direction: Direction;
   speed: Speed;
   snake: Coordination[];
@@ -20,9 +19,7 @@ export interface GameState {
 }
 
 const defaultState: GameState = {
-  started: false,
-  paused: false,
-  isOver: false,
+  status: GameStatus.NOT_STARTED,
   direction: Direction.RIGHT,
   speed: Speed.SPEED_1,
   snake: getStartSnakeCoordinates(GameConfig.fieldSize),
@@ -34,19 +31,6 @@ export const gameReducer = (
   action: GameAction,
 ): GameState => {
   switch (action.type) {
-    case GameActionTypes.START_GAME:
-      return {
-        ...state,
-        ...defaultState,
-        started: true,
-      };
-
-    case GameActionTypes.SET_PAUSE:
-      return {
-        ...state,
-        paused: action.paused!,
-      };
-
     case GameActionTypes.MOVE:
       const coordinations = [
         getNextSnakeCoordination(state.snake, action.direction!),
@@ -57,7 +41,6 @@ export const gameReducer = (
       if (collisionCheck(coordinations)) {
         return {
           ...state,
-          isOver: true,
         };
       }
 

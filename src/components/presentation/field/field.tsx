@@ -55,16 +55,18 @@ export const Field = (props: FieldProps) => {
   const foodCell = getCoordinationAsNumber(food);
 
   return (
-    <div className={classNames('field', styles.root)}>
-      {cells.map((val, i) => (
-        <div
-          key={i}
-          className={classNames('cell', {
-            snake: snakeCells.indexOf(i) > -1,
-            food: foodCell === i,
-          })}
-        />
-      ))}
-    </div>
+    <>
+      <div className={classNames('field', styles.root)}>
+        {cells.map((val, i) => (
+          <div
+            key={i}
+            className={classNames('cell', {
+              snake: snakeCells.indexOf(i) > -1,
+              food: foodCell === i,
+            })}
+          />
+        ))}
+      </div>
+    </>
   );
 };
