@@ -4,8 +4,8 @@ import { fromEvent } from 'rxjs';
 import { distinctUntilKeyChanged } from 'rxjs/operators';
 import { codes } from 'keycode';
 import { Direction } from '../../../game/enums/directions';
-import classnames from 'classnames';
 import { getFieldStyles } from './field-styles';
+import classNames from 'classnames';
 
 export const Field = (props: FieldProps) => {
   React.useEffect(() => {
@@ -43,11 +43,17 @@ export const Field = (props: FieldProps) => {
   };
 
   const styles = getFieldStyles(props.fieldSize);
+  const drawBlack = props.coordinates.map(
+    c => (c.y - 1) * props.fieldSize + c.x,
+  );
 
   return (
-    <div className={classnames('field', styles.root)}>
+    <div className={classNames('field', styles.root)}>
       {new Array(props.fieldSize * props.fieldSize).fill(null).map((val, i) => (
-        <div key={i} className='cell' />
+        <div
+          key={i}
+          className={classNames('cell', { black: drawBlack.indexOf(i) > -1 })}
+        />
       ))}
     </div>
   );

@@ -4,6 +4,9 @@ import { getNextCoordination } from '../../game/get_next_coordination';
 import { collisionCheck } from '../../game/collision_check';
 import { Speed } from '../../game/enums/speed';
 import { Direction } from '../../game/enums/directions';
+import { getStartCoordinates } from '../../game/get_start_coordinates';
+import { GameConfig } from '../../game/config';
+import { nextDirectionIsValid } from '../../game/next_direction_is_valid';
 
 export interface GameState {
   started: boolean;
@@ -20,7 +23,7 @@ const defaultState: GameState = {
   isOver: false,
   direction: Direction.RIGHT,
   speed: Speed.SPEED_1,
-  coordinations: [],
+  coordinations: getStartCoordinates(GameConfig.fieldSize),
 };
 
 export const gameReducer = (
@@ -29,7 +32,11 @@ export const gameReducer = (
 ): GameState => {
   switch (action.type) {
     case GameActionTypes.START_GAME:
-      return state;
+      return {
+        ...state,
+        ...defaultState,
+        started: true,
+      };
 
     case GameActionTypes.SET_PAUSE:
       return {
@@ -47,7 +54,6 @@ export const gameReducer = (
       if (collisionCheck(coordinations)) {
         return {
           ...state,
-          coordinations: coordinations,
           isOver: true,
         };
       }
@@ -58,10 +64,12 @@ export const gameReducer = (
       };
 
     case GameActionTypes.CHANGE_DIRECTION:
-      return {
-        ...state,
-        direction: action.direction!,
-      };
+      return !nextDirectionIsValid(state.direction, action.direction!)
+        ? state
+        : {
+            ...state,
+            direction: action.direction!,
+          };
 
     default:
       return state;

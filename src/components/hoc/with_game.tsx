@@ -4,16 +4,25 @@ import { ApplicationState } from '../../redux/application_state';
 import { connect } from 'react-redux';
 import { FieldProps } from '../presentation/field/typings';
 import { GameConfig } from '../../game/config';
+import { Coordination } from '../../game/types/coordination';
+import { useInterval } from '../../util/use_interval';
+import { Direction } from '../../game/enums/directions';
 
 interface PresentationalProps {}
 type DispatchProps = IGameActions;
 interface ContainerProps {
   paused: boolean;
+  isOver: boolean;
+  direction: Direction;
+  coordinates: Coordination[];
 }
 type Props = PresentationalProps & DispatchProps & ContainerProps;
 
 const mapStateToProps = (state: ApplicationState): ContainerProps => ({
   paused: state.game.paused,
+  isOver: state.game.isOver,
+  direction: state.game.direction,
+  coordinates: state.game.coordinations,
 });
 
 export const withGame = (
@@ -28,6 +37,13 @@ export const withGame = (
     mapStateToProps,
     GameActions,
   )((props: Props) => {
+    useInterval(() => {
+      if (props.isOver) {
+        return;
+      }
+      props.move(props.direction);
+    }, 100);
+
     const handleTogglePause = () => {
       props.paused ? props.resumeGame() : props.pauseGame();
     };
@@ -35,6 +51,7 @@ export const withGame = (
     return (
       <FieldComponent
         fieldSize={GameConfig.fieldSize}
+        coordinates={props.coordinates}
         onTogglePause={handleTogglePause}
         onChangeDirection={props.changeDirection}
       />

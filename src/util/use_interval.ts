@@ -6,7 +6,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 type CallbackSignature = () => void;
 
-function useInterval(callback: CallbackSignature, delay: number) {
+export function useInterval(callback: CallbackSignature, delay: number) {
   const savedCallback = useRef<CallbackSignature>();
 
   // Remember the latest callback.

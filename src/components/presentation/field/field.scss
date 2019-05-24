@@ -1,3 +1,7 @@
 .cell {
   border: 1px solid black;
+
+  &.black {
+    background: blue;
+  }
 }

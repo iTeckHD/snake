@@ -1,3 +1,3 @@
 export const GameConfig = {
-  fieldSize: 16,
+  fieldSize: 17,
 };
