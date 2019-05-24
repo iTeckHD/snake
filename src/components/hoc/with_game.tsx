@@ -8,30 +8,32 @@ import { Coordination } from '../../game/types/coordination';
 import { useInterval } from '../../util/use_interval';
 import { Direction } from '../../game/enums/directions';
 import { GameStatus } from '../../game/enums/game_status';
+import { Speed } from '../../game/enums/speed';
 
 interface PresentationalProps {}
 type DispatchProps = IGameActions;
 interface ContainerProps {
-  gameStatus: GameStatus;
+  status: GameStatus;
   direction: Direction;
   coordinates: Coordination[];
   food: Coordination;
+  speed: Speed;
 }
 type Props = PresentationalProps & DispatchProps & ContainerProps;
 
 const mapStateToProps = (state: ApplicationState): ContainerProps => ({
-  gameStatus: state.game.status,
+  status: state.game.status,
   direction: state.game.direction,
   coordinates: state.game.snake,
   food: state.game.food,
+  speed: state.game.speed,
 });
 
 export const withGame = (
   FieldComponent: (fieldProps: FieldProps) => JSX.Element,
 ) => {
   const Component = (props: Props) => {
-    const { gameStatus, coordinates, food } = props;
-
+    const { status: gameStatus, coordinates, food } = props;
     useInterval(() => {
       if (gameStatus === GameStatus.RUNNING) {
         props.move(props.direction);
@@ -50,8 +52,10 @@ export const withGame = (
     return (
       <FieldComponent
         fieldSize={GameConfig.fieldSize}
+        status={gameStatus}
         coordinates={coordinates}
         food={food}
+        onStartGame={props.startGame}
         onTogglePause={handleTogglePause}
         onChangeDirection={props.changeDirection}
       />

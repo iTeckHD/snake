@@ -31,6 +31,12 @@ export const gameReducer = (
   action: GameAction,
 ): GameState => {
   switch (action.type) {
+    case GameActionTypes.SET_GAME_STATUS:
+      return {
+        ...state,
+        status: action.gameStatus!,
+      };
+
     case GameActionTypes.MOVE:
       const coordinations = [
         getNextSnakeCoordination(state.snake, action.direction!),

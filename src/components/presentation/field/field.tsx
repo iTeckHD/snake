@@ -7,13 +7,14 @@ import { codes } from 'keycode';
 import { Direction } from '../../../game/enums/directions';
 import { getFieldStyles } from './field-styles';
 import { Coordination } from '../../../game/types/coordination';
+import { GameStatus } from '../../../game/enums/game_status';
 
 export const Field = (props: FieldProps) => {
-  const { fieldSize, coordinates, food } = props;
+  const { fieldSize, status: gameStatus, coordinates, food } = props;
 
   React.useEffect(() => {
     const eventKeydown = fromEvent<KeyboardEvent>(window, 'keydown')
-      .pipe(distinctUntilKeyChanged('keyCode'))
+      //.pipe(distinctUntilKeyChanged('keyCode'))
       .subscribe(handleKeydown);
 
     return () => {
@@ -40,7 +41,18 @@ export const Field = (props: FieldProps) => {
         props.onChangeDirection(Direction.DOWN);
         break;
       case codes.esc:
-        props.onTogglePause();
+      case codes.space:
+        switch (gameStatus) {
+          case GameStatus.NOT_STARTED:
+          case GameStatus.OVER:
+            props.onStartGame();
+            break;
+
+          case GameStatus.RUNNING:
+          case GameStatus.PAUSED:
+            props.onTogglePause();
+            break;
+        }
         break;
     }
   };
