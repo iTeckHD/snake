@@ -35,6 +35,7 @@ export const Field = (props: FieldProps) => {
         props.onChangeDirection(Direction.DOWN);
         break;
       case codes.esc:
+        props.onTogglePause();
         break;
     }
   };

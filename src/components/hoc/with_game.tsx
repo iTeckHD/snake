@@ -4,38 +4,40 @@ import { ApplicationState } from '../../redux/application_state';
 import { connect } from 'react-redux';
 import { FieldProps } from '../presentation/field/typings';
 import { GameConfig } from '../../game/config';
-import { Direction } from '../../game/enums/directions';
 
 interface PresentationalProps {}
 type DispatchProps = IGameActions;
-interface ContainerProps {}
+interface ContainerProps {
+  paused: boolean;
+}
 type Props = PresentationalProps & DispatchProps & ContainerProps;
 
-const mapStateToProps = (state: ApplicationState): ContainerProps => ({});
+const mapStateToProps = (state: ApplicationState): ContainerProps => ({
+  paused: state.game.paused,
+});
 
 export const withGame = (
-  FieldComponent: (props: FieldProps) => JSX.Element,
+  FieldComponent: (fieldProps: FieldProps) => JSX.Element,
 ) => {
-  const Component = (props: Props) => {
-    const handleChangeDirection = (direction: Direction) => {
-      console.log('change direction');
-    };
-
-    return (
-      <FieldComponent
-        onChangeDirection={handleChangeDirection}
-        fieldSize={GameConfig.fieldSize}
-      />
-    );
-  };
-
   return connect<
-    PresentationalProps,
-    DispatchProps,
     ContainerProps,
+    DispatchProps,
+    PresentationalProps,
     ApplicationState
   >(
     mapStateToProps,
     GameActions,
-  )(Component);
+  )((props: Props) => {
+    const handleTogglePause = () => {
+      props.paused ? props.resumeGame() : props.pauseGame();
+    };
+
+    return (
+      <FieldComponent
+        fieldSize={GameConfig.fieldSize}
+        onTogglePause={handleTogglePause}
+        onChangeDirection={props.changeDirection}
+      />
+    );
+  });
 };
