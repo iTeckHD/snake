@@ -1,7 +1,7 @@
 import { Coordination } from '../types/coordination';
 import { Direction } from '../enums/directions';
 
-export const getNextCoordination = (
+export const getNextSnakeCoordination = (
   coords: Coordination[],
   direction: Direction,
 ): Coordination => {

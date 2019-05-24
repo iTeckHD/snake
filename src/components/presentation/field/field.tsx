@@ -1,14 +1,16 @@
 import React from 'react';
+import classNames from 'classnames';
 import { FieldProps } from './typings';
 import { fromEvent } from 'rxjs';
 import { distinctUntilKeyChanged } from 'rxjs/operators';
 import { codes } from 'keycode';
 import { Direction } from '../../../game/enums/directions';
 import { getFieldStyles } from './field-styles';
-import classNames from 'classnames';
 import { Coordination } from '../../../game/types/coordination';
 
 export const Field = (props: FieldProps) => {
+  const { fieldSize, coordinates, food } = props;
+
   React.useEffect(() => {
     const eventKeydown = fromEvent<KeyboardEvent>(window, 'keydown')
       .pipe(distinctUntilKeyChanged('keyCode'))
@@ -43,15 +45,18 @@ export const Field = (props: FieldProps) => {
     }
   };
 
-  const getCoordinationAsNumber = (c: Coordination) =>
-    c.y * props.fieldSize + c.x;
+  const getCoordinationAsNumber = (c: Coordination) => {
+    return c.y * fieldSize + c.x;
+  };
 
-  const styles = getFieldStyles(props.fieldSize);
-  const snakeCells = props.coordinates.map(getCoordinationAsNumber);
-  const foodCell = getCoordinationAsNumber(props.food);
+  const styles = getFieldStyles(fieldSize);
+  const cells = new Array(Math.pow(fieldSize, 2)).fill(null);
+  const snakeCells = coordinates.map(getCoordinationAsNumber);
+  const foodCell = getCoordinationAsNumber(food);
+
   return (
     <div className={classNames('field', styles.root)}>
-      {new Array(props.fieldSize * props.fieldSize).fill(null).map((val, i) => (
+      {cells.map((val, i) => (
         <div
           key={i}
           className={classNames('cell', {

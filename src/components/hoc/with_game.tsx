@@ -23,7 +23,7 @@ const mapStateToProps = (state: ApplicationState): ContainerProps => ({
   paused: state.game.paused,
   isOver: state.game.isOver,
   direction: state.game.direction,
-  coordinates: state.game.coordinations,
+  coordinates: state.game.snake,
   food: state.game.food,
 });
 
