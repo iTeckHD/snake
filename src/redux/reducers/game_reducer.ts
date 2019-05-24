@@ -1,12 +1,13 @@
 import { GameAction, GameActionTypes } from '../actions/game_actions';
 import { Coordination } from '../../game/types/coordination';
-import { getNextCoordination } from '../../game/get_next_coordination';
+import { getNextCoordination } from '../../game/coordination/get_next_coordination';
 import { collisionCheck } from '../../game/collision_check';
 import { Speed } from '../../game/enums/speed';
 import { Direction } from '../../game/enums/directions';
-import { getStartCoordinates } from '../../game/get_start_coordinates';
+import { getStartCoordinates } from '../../game/coordination/get_start_coordinates';
 import { GameConfig } from '../../game/config';
 import { nextDirectionIsValid } from '../../game/next_direction_is_valid';
+import { getStartFoodCoordination } from '../../game/coordination/get_start_food_coordination';
 
 export interface GameState {
   started: boolean;
@@ -15,6 +16,7 @@ export interface GameState {
   direction: Direction;
   speed: Speed;
   coordinations: Coordination[];
+  food: Coordination;
 }
 
 const defaultState: GameState = {
@@ -24,6 +26,7 @@ const defaultState: GameState = {
   direction: Direction.RIGHT,
   speed: Speed.SPEED_1,
   coordinations: getStartCoordinates(GameConfig.fieldSize),
+  food: getStartFoodCoordination(GameConfig.fieldSize),
 };
 
 export const gameReducer = (
