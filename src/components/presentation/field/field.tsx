@@ -43,9 +43,7 @@ export const Field = (props: FieldProps) => {
   };
 
   const styles = getFieldStyles(props.fieldSize);
-  const drawBlack = props.coordinates.map(
-    c => (c.y - 1) * props.fieldSize + c.x,
-  );
+  const drawBlack = props.coordinates.map(c => c.y * props.fieldSize + c.x);
 
   return (
     <div className={classNames('field', styles.root)}>
