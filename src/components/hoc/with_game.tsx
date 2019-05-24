@@ -15,6 +15,7 @@ interface ContainerProps {
   isOver: boolean;
   direction: Direction;
   coordinates: Coordination[];
+  food: Coordination;
 }
 type Props = PresentationalProps & DispatchProps & ContainerProps;
 
@@ -23,6 +24,7 @@ const mapStateToProps = (state: ApplicationState): ContainerProps => ({
   isOver: state.game.isOver,
   direction: state.game.direction,
   coordinates: state.game.coordinations,
+  food: state.game.food,
 });
 
 export const withGame = (
@@ -52,6 +54,7 @@ export const withGame = (
       <FieldComponent
         fieldSize={GameConfig.fieldSize}
         coordinates={props.coordinates}
+        food={props.food}
         onTogglePause={handleTogglePause}
         onChangeDirection={props.changeDirection}
       />

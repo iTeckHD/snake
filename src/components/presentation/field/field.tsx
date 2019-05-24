@@ -6,6 +6,7 @@ import { codes } from 'keycode';
 import { Direction } from '../../../game/enums/directions';
 import { getFieldStyles } from './field-styles';
 import classNames from 'classnames';
+import { Coordination } from '../../../game/types/coordination';
 
 export const Field = (props: FieldProps) => {
   React.useEffect(() => {
@@ -42,15 +43,21 @@ export const Field = (props: FieldProps) => {
     }
   };
 
-  const styles = getFieldStyles(props.fieldSize);
-  const drawBlack = props.coordinates.map(c => c.y * props.fieldSize + c.x);
+  const getCoordinationAsNumber = (c: Coordination) =>
+    c.y * props.fieldSize + c.x;
 
+  const styles = getFieldStyles(props.fieldSize);
+  const snakeCells = props.coordinates.map(getCoordinationAsNumber);
+  const foodCell = getCoordinationAsNumber(props.food);
   return (
     <div className={classNames('field', styles.root)}>
       {new Array(props.fieldSize * props.fieldSize).fill(null).map((val, i) => (
         <div
           key={i}
-          className={classNames('cell', { black: drawBlack.indexOf(i) > -1 })}
+          className={classNames('cell', {
+            snake: snakeCells.indexOf(i) > -1,
+            food: foodCell === i,
+          })}
         />
       ))}
     </div>

@@ -1,7 +1,11 @@
 .cell {
   border: 1px solid black;
 
-  &.black {
+  &.snake {
     background: blue;
+  }
+
+  &.food {
+    background: green;
   }
 }
