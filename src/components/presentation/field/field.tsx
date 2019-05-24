@@ -4,6 +4,8 @@ import { fromEvent } from 'rxjs';
 import { distinctUntilKeyChanged } from 'rxjs/operators';
 import { codes } from 'keycode';
 import { Direction } from '../../../game/enums/directions';
+import classnames from 'classnames';
+import { getFieldStyles } from './field-styles';
 
 export const Field = (props: FieldProps) => {
   React.useEffect(() => {
@@ -40,18 +42,13 @@ export const Field = (props: FieldProps) => {
     }
   };
 
-  const arr = new Array(props.fieldSize).fill(null);
-  const renderRow = (key: number) => {
-    return (
-      <div className='row' key={key}>
-        {renderCells()}
-      </div>
-    );
-  };
+  const styles = getFieldStyles(props.fieldSize);
 
-  const renderCells = () => {
-    return arr.map((val, i) => <div className='cell' key={i} />);
-  };
-
-  return <div className='field'>{arr.map((val, i) => renderRow(i))}</div>;
+  return (
+    <div className={classnames('field', styles.root)}>
+      {new Array(props.fieldSize * props.fieldSize).fill(null).map((val, i) => (
+        <div key={i} className='cell' />
+      ))}
+    </div>
+  );
 };
