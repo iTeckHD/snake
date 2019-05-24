@@ -12,6 +12,7 @@ export const GameActionTypes = prefixActions('GameAction', {
   START_GAME: 'START_GAME',
   SET_PAUSE: 'SET_PAUSE',
   MOVE: 'MOVE',
+  CHANGE_DIRECTION: 'CHANGE_DIRECTION',
 });
 
 export const GameActions = {
@@ -31,6 +32,11 @@ export const GameActions = {
 
   move: (direction: Direction): GameAction => ({
     type: GameActionTypes.MOVE,
+    direction,
+  }),
+
+  changeDirection: (direction: Direction): GameAction => ({
+    type: GameActionTypes.CHANGE_DIRECTION,
     direction,
   }),
 };
