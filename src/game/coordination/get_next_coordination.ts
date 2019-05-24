@@ -1,5 +1,5 @@
-import { Coordination } from './types/coordination';
-import { Direction } from './enums/directions';
+import { Coordination } from '../types/coordination';
+import { Direction } from '../enums/directions';
 
 export const getNextCoordination = (
   coords: Coordination[],
