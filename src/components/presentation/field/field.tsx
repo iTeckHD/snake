@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { FieldProps } from './typings';
 import { fromEvent } from 'rxjs';
-import { distinctUntilKeyChanged } from 'rxjs/operators';
+import { distinctUntilKeyChanged, tap } from 'rxjs/operators';
 import { codes } from 'keycode';
 import { Direction } from '../../../game/enums/directions';
 import { getFieldStyles } from './field-styles';
@@ -13,16 +13,19 @@ export const Field = (props: FieldProps) => {
   const { fieldSize, status: gameStatus, coordinates, food } = props;
 
   React.useEffect(() => {
-    const eventKeydown = fromEvent<KeyboardEvent>(window, 'keydown')
-      //.pipe(distinctUntilKeyChanged('keyCode'))
-      .subscribe(handleKeydown);
+    const observableKeyboard = fromEvent<KeyboardEvent>(window, 'keydown')
+      .pipe(
+        tap(handleStatus),
+        distinctUntilKeyChanged('keyCode'),
+      )
+      .subscribe(handleDirection);
 
     return () => {
-      eventKeydown.unsubscribe();
+      observableKeyboard.unsubscribe();
     };
   });
 
-  const handleKeydown = (e: KeyboardEvent) => {
+  const handleDirection = (e: KeyboardEvent) => {
     switch (e.keyCode) {
       case codes.left:
       case codes.a:
@@ -40,6 +43,25 @@ export const Field = (props: FieldProps) => {
       case codes.s:
         props.onChangeDirection(Direction.DOWN);
         break;
+      case codes.esc:
+      case codes.space:
+        switch (gameStatus) {
+          case GameStatus.NOT_STARTED:
+          case GameStatus.OVER:
+            props.onStartGame();
+            break;
+
+          case GameStatus.RUNNING:
+          case GameStatus.PAUSED:
+            props.onTogglePause();
+            break;
+        }
+        break;
+    }
+  };
+
+  const handleStatus = (e: KeyboardEvent) => {
+    switch (e.keyCode) {
       case codes.esc:
       case codes.space:
         switch (gameStatus) {
