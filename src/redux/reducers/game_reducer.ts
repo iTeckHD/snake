@@ -37,25 +37,13 @@ export const gameReducer = (
         status: action.gameStatus!,
       };
 
-    case GameActionTypes.MOVE:
-      const coordinations = [
-        getNextSnakeCoordination(state.snake, action.direction!),
-        ...state.snake,
-      ];
-      coordinations.pop();
-
-      if (collisionCheck(coordinations)) {
-        return {
-          ...state,
-        };
-      }
-
+    case GameActionTypes.SET_SNAKE:
       return {
         ...state,
-        snake: coordinations,
+        snake: action.snake!,
       };
 
-    case GameActionTypes.CHANGE_DIRECTION:
+    case GameActionTypes.SET_DIRECTION:
       return !nextDirectionIsValid(state.direction, action.direction!)
         ? state
         : {

@@ -2,10 +2,12 @@ import { prefixActions } from '../../util/prefix_actions';
 import { ReduxAction } from '../../util/redux_action';
 import { Direction } from '../../game/enums/directions';
 import { GameStatus } from '../../game/enums/game_status';
+import { Coordination } from '../../game/types/coordination';
 
 export interface GameAction extends ReduxAction {
   direction?: Direction;
   gameStatus?: GameStatus;
+  snake?: Coordination[];
 }
 
 export const GameActionTypes = prefixActions('GameAction', {
@@ -14,8 +16,9 @@ export const GameActionTypes = prefixActions('GameAction', {
   RESUME_GAME: 'RESUME_GAME',
   GAME_OVER: 'GAME_OVER',
   SET_GAME_STATUS: 'SET_GAME_STATUS',
+  SET_SNAKE: 'SET_SNAKE',
   MOVE: 'MOVE',
-  CHANGE_DIRECTION: 'CHANGE_DIRECTION',
+  SET_DIRECTION: 'CHANGE_DIRECTION',
 });
 
 export const GameActions = {
@@ -40,14 +43,18 @@ export const GameActions = {
     gameStatus,
   }),
 
-  move: (direction: Direction): GameAction => ({
-    type: GameActionTypes.MOVE,
+  setSnake: (snake: Coordination[]): GameAction => ({
+    type: GameActionTypes.SET_SNAKE,
+    snake,
+  }),
+
+  setDirection: (direction: Direction): GameAction => ({
+    type: GameActionTypes.SET_DIRECTION,
     direction,
   }),
 
-  changeDirection: (direction: Direction): GameAction => ({
-    type: GameActionTypes.CHANGE_DIRECTION,
-    direction,
+  move: (): GameAction => ({
+    type: GameActionTypes.MOVE,
   }),
 };
 

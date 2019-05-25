@@ -33,12 +33,13 @@ export const withGame = (
   FieldComponent: (fieldProps: FieldProps) => JSX.Element,
 ) => {
   const Component = (props: Props) => {
-    const { status: gameStatus, coordinates, food } = props;
+    const { status: gameStatus, coordinates, food, speed } = props;
+
     useInterval(() => {
       if (gameStatus === GameStatus.RUNNING) {
-        props.move(props.direction);
+        props.move();
       }
-    }, 100);
+    }, 500);
 
     const handleTogglePause = () => {
       if (gameStatus === GameStatus.PAUSED) {
@@ -57,7 +58,7 @@ export const withGame = (
         food={food}
         onStartGame={props.startGame}
         onTogglePause={handleTogglePause}
-        onChangeDirection={props.changeDirection}
+        onChangeDirection={props.setDirection}
       />
     );
   };

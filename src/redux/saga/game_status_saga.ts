@@ -2,7 +2,7 @@ import { put, take, race } from 'redux-saga/effects';
 import { GameActionTypes, GameActions } from '../actions/game_actions';
 import { GameStatus } from '../../game/enums/game_status';
 
-export function* sagaGame() {
+export function* sagaGameStatus() {
   while (true) {
     yield take(GameActionTypes.START_GAME);
     yield put(GameActions.setGameStatus(GameStatus.RUNNING));
