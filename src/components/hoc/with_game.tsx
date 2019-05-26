@@ -1,5 +1,4 @@
 import React from 'react';
-import { GameActions, IGameActions } from '../../redux/actions/game_actions';
 import { ApplicationState } from '../../redux/application_state';
 import { connect } from 'react-redux';
 import { FieldProps } from '../presentation/field/typings';
@@ -15,9 +14,17 @@ import { tap, distinctUntilKeyChanged } from 'rxjs/operators';
 import { OverlayGameNotStarted } from '../presentation/overlay/overlay_game_not_started';
 import { OverlayGamePaused } from '../presentation/overlay/overlay_game_paused';
 import { OverlayGameOver } from '../presentation/overlay/overlay_game_over';
+import {
+  IGameReducerActions,
+  GameReducerActions,
+} from '../../redux/actions/game_reducer_actions';
+import {
+  IGameSagaActions,
+  GameSagaActions,
+} from '../../redux/actions/game_saga_actions';
 
 interface PresentationalProps {}
-type DispatchProps = IGameActions;
+type DispatchProps = IGameReducerActions & IGameSagaActions;
 interface ContainerProps {
   status: GameStatus;
   direction: Direction;
@@ -136,6 +143,6 @@ export const withGame = (
     ApplicationState
   >(
     mapStateToProps,
-    GameActions,
+    { ...GameReducerActions, ...GameSagaActions },
   )(Component);
 };

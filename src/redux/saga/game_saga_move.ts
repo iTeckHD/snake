@@ -1,15 +1,16 @@
 import { take, select, put, all } from 'redux-saga/effects';
-import { GameActionTypes, GameActions } from '../actions/game_actions';
 import { getSnake, getDirection, getFood } from './selector';
 import { Coordination } from '../../game/types/coordination';
 import { getNextSnakeCoordination } from '../../game/coordination/get_next_snake_coordination';
 import { collisionCheck } from '../../game/collision_check';
-import { GameStatus } from '../../game/enums/game_status';
 import { snakeWillEat } from '../../game/coordination/snake_will_eat';
+import { GameSagaActionTypes } from '../types/game_saga_action_types';
+import { GameSagaActions } from '../actions/game_saga_actions';
+import { GameReducerActions } from '../actions/game_reducer_actions';
 
 export function* sagaGameMove() {
   while (true) {
-    yield take(GameActionTypes.MOVE);
+    yield take(GameSagaActionTypes.MOVE);
 
     const [snake, direction, food] = yield all([
       select(getSnake),
@@ -23,13 +24,13 @@ export function* sagaGameMove() {
     ];
 
     if (snakeWillEat(coordinations, food)) {
-      yield put(GameActions.setNewFood());
+      yield put(GameReducerActions.setNewFood());
     } else {
       coordinations.pop();
     }
 
     yield collisionCheck(coordinations)
-      ? put(GameActions.gameOver())
-      : put(GameActions.setSnake(coordinations));
+      ? put(GameSagaActions.gameOver())
+      : put(GameReducerActions.setSnake(coordinations));
   }
 }

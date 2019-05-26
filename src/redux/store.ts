@@ -2,8 +2,8 @@ import { applyMiddleware, createStore, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { rootReducers } from './root_reducers';
 import createSagaMiddleware from 'redux-saga';
-import { sagaGameStatus } from './saga/game_status_saga';
-import { sagaGameMove } from './saga/game_move_saga';
+import { sagaGameStatus } from './saga/game_saga_status';
+import { sagaGameMove } from './saga/game_saga_move';
 
 type MyWindow = Window & {
   __REDUX_DEVTOOLS_EXTENSION__: any;
