@@ -12,6 +12,9 @@ import { GameStatus } from '../../game/enums/game_status';
 import { Speed } from '../../game/enums/speed';
 import { fromEvent } from 'rxjs';
 import { tap, distinctUntilKeyChanged } from 'rxjs/operators';
+import { OverlayGameNotStarted } from '../presentation/overlay/overlay_game_not_started';
+import { OverlayGamePaused } from '../presentation/overlay/overlay_game_paused';
+import { OverlayGameOver } from '../presentation/overlay/overlay_game_over';
 
 interface PresentationalProps {}
 type DispatchProps = IGameActions;
@@ -113,9 +116,13 @@ export const withGame = (
             />
           </div>
         </div>
-        {status === GameStatus.PAUSED && (
-          <div>
-            <div>Pause screen</div>
+        {status !== GameStatus.RUNNING && (
+          <div className='overlay'>
+            <div className='overlay-content'>
+              {status === GameStatus.NOT_STARTED && <OverlayGameNotStarted />}
+              {status === GameStatus.PAUSED && <OverlayGamePaused />}
+              {status === GameStatus.OVER && <OverlayGameOver />}
+            </div>
           </div>
         )}
       </>
