@@ -27,6 +27,10 @@ export const GameReducerActions = {
   setNewFood: (): GameAction => ({
     type: GameReducerActionTypes.SET_NEW_FOOD,
   }),
+
+  increaseScore: (): GameAction => ({
+    type: GameReducerActionTypes.INCREASE_SCORE,
+  }),
 };
 
 export type IGameReducerActions = typeof GameReducerActions;

@@ -24,7 +24,10 @@ export function* sagaGameMove() {
     ];
 
     if (snakeWillEat(coordinations, food)) {
-      yield put(GameReducerActions.setNewFood());
+      yield all([
+        put(GameReducerActions.setNewFood()),
+        put(GameReducerActions.increaseScore()),
+      ]);
     } else {
       coordinations.pop();
     }
