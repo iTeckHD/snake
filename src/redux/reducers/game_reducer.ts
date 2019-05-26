@@ -30,6 +30,9 @@ export const gameReducer = (
   action: GameAction,
 ): GameState => {
   switch (action.type) {
+    case GameActionTypes.RESET_GAME:
+      return defaultState;
+
     case GameActionTypes.SET_GAME_STATUS:
       return {
         ...state,

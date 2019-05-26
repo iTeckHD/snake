@@ -12,6 +12,7 @@ export interface GameAction extends ReduxAction {
 
 export const GameActionTypes = prefixActions('GameAction', {
   START_GAME: 'START_GAME',
+  RESET_GAME: 'RESET_GAME',
   PAUSE_GAME: 'PAUSE_GAME',
   RESUME_GAME: 'RESUME_GAME',
   GAME_OVER: 'GAME_OVER',
@@ -27,6 +28,10 @@ export const GameActions = {
     type: GameActionTypes.START_GAME,
   }),
 
+  resetGame: (): GameAction => ({
+    type: GameActionTypes.RESET_GAME,
+  }),
+
   pauseGame: (): GameAction => ({
     type: GameActionTypes.PAUSE_GAME,
   }),
@@ -36,7 +41,7 @@ export const GameActions = {
   }),
 
   gameOver: (): GameAction => ({
-    type: GameActionTypes.START_GAME,
+    type: GameActionTypes.GAME_OVER,
   }),
 
   setGameStatus: (gameStatus: GameStatus): GameAction => ({

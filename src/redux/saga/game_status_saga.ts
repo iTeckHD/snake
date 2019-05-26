@@ -5,6 +5,7 @@ import { GameStatus } from '../../game/enums/game_status';
 export function* sagaGameStatus() {
   while (true) {
     yield take(GameActionTypes.START_GAME);
+    yield put(GameActions.resetGame());
     yield put(GameActions.setGameStatus(GameStatus.RUNNING));
 
     while (true) {

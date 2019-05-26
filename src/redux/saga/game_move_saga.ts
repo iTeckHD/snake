@@ -29,7 +29,7 @@ export function* sagaGameMove() {
     }
 
     yield collisionCheck(coordinations)
-      ? put(GameActions.setGameStatus(GameStatus.OVER))
+      ? put(GameActions.gameOver())
       : put(GameActions.setSnake(coordinations));
   }
 }
