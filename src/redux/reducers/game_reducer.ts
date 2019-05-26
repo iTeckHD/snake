@@ -1,7 +1,5 @@
 import { GameAction, GameActionTypes } from '../actions/game_actions';
 import { Coordination } from '../../game/types/coordination';
-import { getNextSnakeCoordination } from '../../game/coordination/get_next_snake_coordination';
-import { collisionCheck } from '../../game/collision_check';
 import { Speed } from '../../game/enums/speed';
 import { Direction } from '../../game/enums/directions';
 import { getStartSnakeCoordinates } from '../../game/coordination/get_start_snake_coordinates';
@@ -9,6 +7,7 @@ import { GameConfig } from '../../game/config';
 import { nextDirectionIsValid } from '../../game/next_direction_is_valid';
 import { getStartFoodCoordination } from '../../game/coordination/get_start_food_coordination';
 import { GameStatus } from '../../game/enums/game_status';
+import { getNextFoodCoordination } from '../../game/coordination/get_next_food_coordination';
 
 export interface GameState {
   status: GameStatus;
@@ -41,6 +40,11 @@ export const gameReducer = (
       return {
         ...state,
         snake: action.snake!,
+      };
+    case GameActionTypes.SET_NEW_FOOD:
+      return {
+        ...state,
+        food: getNextFoodCoordination(state.snake, GameConfig.fieldSize),
       };
 
     case GameActionTypes.SET_DIRECTION:

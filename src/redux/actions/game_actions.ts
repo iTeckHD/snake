@@ -17,8 +17,9 @@ export const GameActionTypes = prefixActions('GameAction', {
   GAME_OVER: 'GAME_OVER',
   SET_GAME_STATUS: 'SET_GAME_STATUS',
   SET_SNAKE: 'SET_SNAKE',
+  SET_DIRECTION: 'SET_DIRECTION',
+  SET_NEW_FOOD: 'SET_NEW_FOOD',
   MOVE: 'MOVE',
-  SET_DIRECTION: 'CHANGE_DIRECTION',
 });
 
 export const GameActions = {
@@ -51,6 +52,10 @@ export const GameActions = {
   setDirection: (direction: Direction): GameAction => ({
     type: GameActionTypes.SET_DIRECTION,
     direction,
+  }),
+
+  setNewFood: (): GameAction => ({
+    type: GameActionTypes.SET_NEW_FOOD,
   }),
 
   move: (): GameAction => ({
