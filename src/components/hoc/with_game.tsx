@@ -4,11 +4,14 @@ import { ApplicationState } from '../../redux/application_state';
 import { connect } from 'react-redux';
 import { FieldProps } from '../presentation/field/typings';
 import { GameConfig } from '../../game/config';
+import { codes } from 'keycode';
 import { Coordination } from '../../game/types/coordination';
 import { useInterval } from '../../util/use_interval';
 import { Direction } from '../../game/enums/directions';
 import { GameStatus } from '../../game/enums/game_status';
 import { Speed } from '../../game/enums/speed';
+import { fromEvent } from 'rxjs';
+import { tap, distinctUntilKeyChanged } from 'rxjs/operators';
 
 interface PresentationalProps {}
 type DispatchProps = IGameActions;
@@ -33,33 +36,89 @@ export const withGame = (
   FieldComponent: (fieldProps: FieldProps) => JSX.Element,
 ) => {
   const Component = (props: Props) => {
-    const { status: gameStatus, coordinates, food, speed } = props;
+    const { status, coordinates, food, speed } = props;
+
+    React.useEffect(() => {
+      const observableKeyboard = fromEvent<KeyboardEvent>(window, 'keydown')
+        .pipe(
+          tap(handleStatus),
+          distinctUntilKeyChanged('keyCode'),
+        )
+        .subscribe(handleDirection);
+
+      return () => {
+        observableKeyboard.unsubscribe();
+      };
+    });
 
     useInterval(() => {
-      if (gameStatus === GameStatus.RUNNING) {
+      if (status === GameStatus.RUNNING) {
         props.move();
       }
-    }, 500);
+    }, 100);
 
-    const handleTogglePause = () => {
-      if (gameStatus === GameStatus.PAUSED) {
-        props.resumeGame();
+    const handleDirection = (e: KeyboardEvent) => {
+      switch (e.keyCode) {
+        case codes.left:
+        case codes.a:
+          props.setDirection(Direction.LEFT);
+          break;
+        case codes.up:
+        case codes.w:
+          props.setDirection(Direction.UP);
+          break;
+        case codes.right:
+        case codes.d:
+          props.setDirection(Direction.RIGHT);
+          break;
+        case codes.down:
+        case codes.s:
+          props.setDirection(Direction.DOWN);
+          break;
       }
-      if (gameStatus === GameStatus.RUNNING) {
-        props.pauseGame();
+    };
+
+    const handleStatus = (e: KeyboardEvent) => {
+      switch (e.keyCode) {
+        case codes.esc:
+        case codes.space:
+          switch (status) {
+            case GameStatus.NOT_STARTED:
+            case GameStatus.OVER:
+              props.startGame();
+              break;
+
+            case GameStatus.RUNNING:
+            case GameStatus.PAUSED:
+              if (status === GameStatus.PAUSED) {
+                props.resumeGame();
+              }
+              if (status === GameStatus.RUNNING) {
+                props.pauseGame();
+              }
+              break;
+          }
+          break;
       }
     };
 
     return (
-      <FieldComponent
-        fieldSize={GameConfig.fieldSize}
-        status={gameStatus}
-        coordinates={coordinates}
-        food={food}
-        onStartGame={props.startGame}
-        onTogglePause={handleTogglePause}
-        onChangeDirection={props.setDirection}
-      />
+      <>
+        <div className='game-wrapper'>
+          <div className='game-content'>
+            <FieldComponent
+              fieldSize={GameConfig.fieldSize}
+              coordinates={coordinates}
+              food={food}
+            />
+          </div>
+        </div>
+        {status === GameStatus.PAUSED && (
+          <div>
+            <div>Pause screen</div>
+          </div>
+        )}
+      </>
     );
   };
 

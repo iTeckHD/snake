@@ -10,9 +10,7 @@ export const Layout = (props: Props) => {
       <div className='layout-header'>
         <Header />
       </div>
-      <div className='layout-wrapper'>
-        <div className='layout-content'>{props.children}</div>
-      </div>
+      <div className='layout-wrapper'>{props.children}</div>
     </div>
   );
 };
