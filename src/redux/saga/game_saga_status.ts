@@ -13,7 +13,6 @@ export function* sagaGameStatus() {
       const [over, pause] = yield race([
         take(GameSagaActionTypes.GAME_OVER),
         take(GameSagaActionTypes.PAUSE_GAME),
-        take(GameSagaActionTypes.MOVE),
       ]);
 
       if (over) {
