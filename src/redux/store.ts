@@ -5,13 +5,8 @@ import createSagaMiddleware from 'redux-saga';
 import { sagaGameStatus } from './saga/game_saga_status';
 import { sagaGameMove } from './saga/game_saga_move';
 
-type MyWindow = Window & {
-  __REDUX_DEVTOOLS_EXTENSION__: any;
-  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
-};
-
 const composeEnhancers =
-  (window as MyWindow).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const getStore = () => {
   const sagaMiddleware = createSagaMiddleware();
@@ -21,8 +16,8 @@ export const getStore = () => {
     composeEnhancers(applyMiddleware(thunk), applyMiddleware(sagaMiddleware)),
   );
 
-  sagaMiddleware.run(sagaGameStatus);
-  sagaMiddleware.run(sagaGameMove);
+  sagaMiddleware.run(sagaGameStatus as any);
+  sagaMiddleware.run(sagaGameMove as any);
 
   return store;
 };

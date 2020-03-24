@@ -10,10 +10,13 @@ export function* sagaGameStatus() {
     yield put(GameReducerActions.setGameStatus(GameStatus.RUNNING));
 
     while (true) {
-      const [over, pause] = yield race([
+      const raceResult = yield race([
         take(GameSagaActionTypes.GAME_OVER),
         take(GameSagaActionTypes.PAUSE_GAME),
       ]);
+
+      const over: boolean = raceResult[0];
+      const pause: boolean = raceResult[1];
 
       if (over) {
         yield put(GameReducerActions.setGameStatus(GameStatus.OVER));

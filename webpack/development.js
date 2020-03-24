@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const merge = require('webpack-merge');
 const defaultConfig = require('./default.js');
 
@@ -21,12 +20,6 @@ module.exports = merge(defaultConfig, {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
       'process.env.SERVER_URL': JSON.stringify('http://192.168.18.77:9000'),
-    }),
-    new CleanWebpackPlugin({
-      root: path.join(__dirname, '../'),
-      verbose: true,
-      dry: false,
-      exclude: [],
     }),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
